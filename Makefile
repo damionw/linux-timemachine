@@ -14,6 +14,7 @@ SHELL := /bin/bash
 TEMP = temp
 SRC := $(TEMP)/source
 DST := $(TEMP)/dest
+INSTALL_PATH := $(shell python -c 'import sys; print(sys.prefix if (hasattr(sys, "real_prefix") or (hasattr(sys, "base_prefix") and sys.base_prefix != sys.prefix)) else "/usr/local")')
 
 FL_VERSION = 0.3
 FL_IGNORES = .git/,.github/
@@ -28,8 +29,8 @@ help:
 	@echo "# Linux timemachine Makefile                                           #"
 	@echo "# -------------------------------------------------------------------- #"
 	@echo
-	@echo "install    Install to /usr/local/bin/timemachine (requires root)"
-	@echo "uninstall  Remove /usr/local/bin/timemachine (requires root)"
+	@echo "install    Install to $(INSTALL_PATH)/bin/timemachine (requires root)"
+	@echo "uninstall  Remove $(INSTALL_PATH)/bin/timemachine (requires root)"
 	@echo
 	@echo "help       Show this help"
 	@echo "lint       Run shellcheck linting"
@@ -42,12 +43,12 @@ help:
 # -------------------------------------------------------------------------------------------------
 
 install: timemachine
-	install -d /usr/local/bin
-	install -m 755 timemachine /usr/local/bin/timemachine
+	install -d $(INSTALL_PATH)/bin
+	install -m 755 timemachine $(INSTALL_PATH)/bin/timemachine
 
 
 uninstall:
-	rm /usr/local/bin/timemachine
+	rm $(INSTALL_PATH)/bin/timemachine
 
 
 # -------------------------------------------------------------------------------------------------
